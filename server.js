@@ -1,5 +1,6 @@
 import express from 'express'
 import path from 'path'
+import mime from 'mime-types'
 
 const app = express()
 let port = 3000
@@ -20,6 +21,12 @@ app.all('/client', ((req, res) => {
 
 app.all('/client/:fileName', ((req, res) => {
     let fileName = req.params.fileName
+    let contentType = mime.lookup(fileName)
+    if (!contentType) {
+        contentType = 'application/octet-stream';
+    }
+
+    res.setHeader('Content-Type', contentType)
     res.sendFile(__dirname + '/client/' + fileName)
 }))
 
