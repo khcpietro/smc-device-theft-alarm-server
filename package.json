@@ -1,0 +1,22 @@
+{
+  "name": "gta-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "docker build -t gta-server .",
+    "start": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "restart": "npm run stop && npm run start",
+    "bash": "docker exec -it gta-server bash"
+  },
+  "keywords": [],
+  "author": "Kim Hanchul",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "archiver": "^5.3.0",
+    "express": "^4.17.1",
+    "node-stream-zip": "^1.13.3"
+  }
+}
