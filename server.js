@@ -7,6 +7,8 @@ const app = express()
 let port = 3000
 const __dirname = path.resolve(path.dirname(''))
 
+app.use('/client', express.static(__dirname + '/client'));
+
 let logs = []
 fs.readFile(__dirname + '/logs.json', (err, data) => {
   if (!err) {
@@ -25,21 +27,6 @@ function createDefaultResponse() {
     'message': ''
   }
 }
-
-app.all('/client', ((req, res) => {
-  res.sendFile(__dirname + '/client/index.html')
-}))
-
-app.all('/client/:fileName', ((req, res) => {
-  let fileName = req.params.fileName
-  let contentType = mime.lookup(fileName)
-  if (!contentType) {
-    contentType = 'application/octet-stream'
-  }
-
-  res.setHeader('Content-Type', contentType)
-  res.sendFile(__dirname + '/client/' + fileName)
-}))
 
 app.all('/api/reportTheft', ((req, res) => {
   const deviceId = req.query.deviceId
