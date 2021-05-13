@@ -1,7 +1,6 @@
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import mime from 'mime-types'
 
 const app = express()
 let port = 3000
@@ -50,6 +49,20 @@ app.all('/api/getLogs', ((req, res) => {
     return b.reportTime.getTime() - a.reportTime.getTime()
   }))
 }))
+
+app.all('/api/reset', (req, res) => {
+  fs.readFile(__dirname + '/logs.default.json', (err, data) => {
+    if (!err) {
+      logs = JSON.parse(data.toString()).map((it) => {
+        return {
+          ...it,
+          reportTime: new Date(it.reportTime)
+        }
+      })
+    }
+  })
+  res.send(createDefaultResponse())
+})
 
 
 const server = app.listen(port, () => {
